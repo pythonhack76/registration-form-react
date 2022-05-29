@@ -10,7 +10,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24} $/;
 
 const Register = () => {
 
-    const useRef = useRef();
+    const userRef = useRef();
     const errRef = useRef(); 
 
     const [user, setUser] = useState('');
@@ -29,7 +29,7 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        useRef.current.focus();
+        userRef.current.focus();
     }, [])
 
     useEffect(() => {
@@ -39,11 +39,43 @@ const Register = () => {
         setValidName(result);
     }, [user])
 
+    useEffect(() => {
+        const result = PWD_REGEX.test(pwd);
+        console.log(result);
+        console.log(pwd);
+        setValidPwd(result);
+        const match = pwd === matchPwd;
+        setValidMatch(match);
+    },[pwd, matchPwd])
+
+    useEffect(() => {
+        setErrMsg('');
+
+    }, [user, pwd, matchPwd])
+
     
     return (
-        <div>
-
-        </div>
+        <section>
+            <p ref={errRef} className={errMsg ? "errmsg" : 
+            "offscreen"} aria-live="assertive">{errMsg}</p>
+            <h1>Registrazione</h1>
+            <form>
+               <label htmlFor="username">
+               Username: 
+               </label>
+               <input type="text"
+               id="username"
+               ref={userRef}
+               autoComplete="off"
+               onChange={(e) => setUser(e.target.value)}
+               required
+               aria-invalid={validName ? "false" : "true"}
+               aria-describedby="uidnote"
+               onFocus={() => setUserFocus(true)}
+               onBlur={() => setUserFocus(false)}
+               />
+            </form>
+            </section>
     )
 }
 
