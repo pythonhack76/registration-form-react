@@ -19,7 +19,7 @@ const Register = () => {
 
     const [pwd, setPwd] = useState('');
     const [validPwd, setValidPwd] = useState(false);
-    const [pwdFocus, setpwdFocus] = useState(false);
+    const [pwdFocus, setPwdFocus] = useState(false);
 
     const [matchPwd, setMatchPwd] = useState('');
     const [validMatch, setValidMatch] = useState(false);
@@ -87,6 +87,37 @@ const Register = () => {
                    Deve esserci una lettera.<br />
                    Lettere, Numeri, uderscore, linee permesse. 
                </p>
+
+               <label htmlFor='password'>
+                   Password:
+                   <span className={validPwd ? "valid" : "hide"}>
+                       <FontAwesomeIcon icon={faCheck} />
+                   </span>
+                   <span className={validPwd || !pwd ? "hide" : "invalid"}>
+                       <FontAwesomeIcon icon={faTimes} />
+                   </span>
+
+
+               </label>
+
+               <input
+                type="password"
+                id="password"
+                onChange={(e) => setPwd (e.target.value)}
+                required
+                aria-invalid={validPwd ? "false" : "true"}
+                aria-describedby="pwdnote"
+                onFocus={() => setPwdFocus(true)}
+                onBlur={() => setPwdFocus(false)}
+                    />
+                <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    da 8 a 24 caratteri.<br />
+                    Deve includere Maiuscola a minuscole, numeri e caratteri speciali. <br />
+                </p>
+
+
+
             </form>
             </section>
     )
